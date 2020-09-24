@@ -1,0 +1,18 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="/">MOT</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <a class="nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+      {% if current_user.is_authenticated %}
+      <a class="nav-link float-right" href="{{url_for('main.profile',uname=current_user.username)}}">Profile</a>
+      <a class="nav-link float-right" href="{{url_for('auth.logout')}}">Sign out</a>
+      {% else %}
+      <a class="nav-link float-right" href="{{url_for('auth.login')}}">Sign in</a>
+      {%endif%}
+    </div>
+  </div>
+</nav>
+
