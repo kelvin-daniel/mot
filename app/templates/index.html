@@ -13,7 +13,7 @@
   {% if current_user.is_authenticated%}
     <h5 class="text-white float-right btn btn-sm">Hello {{current_user.username}}</h5>
   {% else %}
-    <h1>Hello stranger</h1>
+    <h5 class="text-white float-right btn btn-sm">Hello stranger</h5>
   {%endif%}
     <form>
         <input type="text" name="movie_query" placeholder="Search for a Movie" class="form-control">
