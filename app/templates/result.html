@@ -3,9 +3,9 @@
   <div class="container">
   <div class="card" style="width: 40rem; margin:auto; margin-top: 10%; margin-bottom:10%;">
     <div class="card-body">
-      <h2 class="card-title" style="font-family: Impact, Charcoal, sans-serif"><center>{% print("Hi, {}".format(username)) %}</center></h2>
+      <h2 class="card-title" style="font-family: Impact, Charcoal, sans-serif"><center>{% print("Hi, {}".format(username | capitalize)) %}</center></h2>
     <br>
-    <h3><strong>Movies Recommended</strong></h3>
+    <h3 class="text-danger">Movies Recommended</h3>
     {% for i in prediction: %}
     <h5>{%     print(i) %}</h5>
     {% endfor %}
