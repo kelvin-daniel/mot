@@ -177,6 +177,4 @@ def predict():
     server.sendmail(from_email, send_to_email , message)
     server.quit()
 
-
-
-    return render_template('results.html',prediction = recommendations,username = user_name)
+    return render_template('result.html',prediction = recommendations, username = user_name)
