@@ -10,6 +10,7 @@ import warnings
 import pandas as pd
 import numpy as np
 import smtplib
+import csv
 
 warnings.filterwarnings("ignore")
 
@@ -135,15 +136,15 @@ def single_review(id):
 
 @main.route('/recommendation')
 def recommendation():
-    movies_titles = pd.read_csv("data/Movie_Id_Titles")
+    movies_titles = pd.read_csv("/home/kevon/Documents/moringa_school/groups/mot/app/main/data/Movie_Id_Titles")
     movies_list = movies_titles['title'].values.tolist()
-    return render_template('recommenndation.html',movies = movies_list)
+    return render_template('recommendation.html',movies = movies_list)
 
 @main.route('/predict', methods=['POST'])
 def predict():
     column_names = ['user_id','item_id','rating','timestamp']
-    df = pd.read_csv("data/u.data",sep="\t",names=column_names)
-    movie_titles = pd.read_csv("data/Movie_Id_Titles")
+    df = pd.read_csv("/home/kevon/Documents/moringa_school/groups/mot/app/main/data/u.data",sep="\t",names=column_names)
+    movie_titles = pd.read_csv("/home/kevon/Documents/moringa_school/groups/mot/app/main/data/Movie_Id_Titles")
     df = pd.merge(df,movie_titles,on='item_id')
 
     ratings = pd.DataFrame(df.groupby('title')['rating'].mean())
@@ -178,4 +179,4 @@ def predict():
 
 
 
-    return render_template('profile/profile.html',prediction = recommendations,username = user_name)
+    return render_template('results.html',prediction = recommendations,username = user_name)

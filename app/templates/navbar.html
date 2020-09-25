@@ -10,6 +10,7 @@
       <a class="nav-link" href="{{url_for('main.profile',uname=current_user.username)}}"><i class="fa fa-user pr-2"></i>profile</a>
       <a class="nav-link" href="{{url_for('auth.logout')}}"><i class="fas fa-sign-out-alt"></i>Sign out</a>
       <a class="nav-link" href="{{url_for('main.recommendation')}}"><i class="fas fa-sign-out-alt"></i>Subscribe</a>
+      <a class="nav-link" href="{{url_for('main.predict')}}"><i class="fas fa-sign-out-alt"></i>recommendations</a>
       {% else %}
       <a class="nav-link" href="{{url_for('auth.login')}}"><i class="fa fa-user"></i>Sign in</a>
       {%endif%}
