@@ -2,12 +2,10 @@
 {% import 'bootstrap/wtf.html' as wtf%}
 
 {% block content%}
-
 <div class="container mt-5 p-5 text-white" style="border-radius: 1%; background-color: rgb(12, 12, 12);">
   <div class="row">
 
     <div class="col-md-2"> </div>
-
     <div class="col-md-8">
       <!-- Flash message -->
       {% for message in get_flashed_messages() %}
@@ -15,21 +13,12 @@
           <button type="button" class="close" data-dismiss="alert">&times;</button>
           {{ message }}
           </div>
-
       {% endfor %}
       <!-- Login form  -->
-
       {{ wtf.quick_form(login_form) }}
-
-      <p> Don't  have an account?  <a class="text-danger" href="{{url_for('auth.register')}}">Sign up here</a></p>
-      <p> <a class="text-danger" href="{{url_for('rating.html')}}">subscribe to daily recommendations</a></p>
-
+      <h6> Don't  have an account?  <a class="text-danger" href="{{url_for('auth.register')}}">Sign up here</a></h6>
     </div>
-
     <div class="col-md-2"> </div>
-
   </div>
 </div>
-
-
 {%endblock%}
