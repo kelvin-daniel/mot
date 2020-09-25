@@ -6,6 +6,12 @@ from ..models import Review,User,PhotoProfile
 from flask_login import login_required,current_user
 from .. import db,photos
 import markdown2  
+import warnings
+import pandas as pd
+import numpy as np
+import smtplib
+
+warnings.filterwarnings("ignore")
 
 # Views
 @main.route('/')
@@ -126,3 +132,50 @@ def single_review(id):
         abort(404)
     format_review = markdown2.markdown(review.movie_review,extras=["code-friendly", "fenced-code-blocks"])
     return render_template('review.html',review = review,format_review=format_review)
+
+@main.route('/recommendation')
+def recommendation():
+    movies_titles = pd.read_csv("data/Movie_Id_Titles")
+    movies_list = movies_titles['title'].values.tolist()
+    return render_template('recommenndation.html',movies = movies_list)
+
+@main.route('/predict', methods=['POST'])
+def predict():
+    column_names = ['user_id','item_id','rating','timestamp']
+    df = pd.read_csv("data/u.data",sep="\t",names=column_names)
+    movie_titles = pd.read_csv("data/Movie_Id_Titles")
+    df = pd.merge(df,movie_titles,on='item_id')
+
+    ratings = pd.DataFrame(df.groupby('title')['rating'].mean())
+    ratings['num_of_ratings'] = pd.DataFrame(df.groupby('title')['rating'].count())
+    moviemat = df.pivot_table(values='rating',index='user_id',columns='title')
+
+    argument = request.form['choice']
+    user_name = request.form['username']
+    starwars_ratings = moviemat[argument]
+    starwars_ratings.dropna(inplace=True)
+    corr_starwars = moviemat.corrwith(starwars_ratings)
+    like_starwars = pd.DataFrame(corr_starwars,columns=['Correlation'])
+    like_starwars.dropna(inplace=True)
+    like_starwars = like_starwars.join(ratings['num_of_ratings'])
+    like_starwars = like_starwars.join(ratings['rating'])
+    result = like_starwars[like_starwars['num_of_ratings']>100].sort_values('Correlation',ascending=False)
+    res=result.index[1:11]
+    res_df = pd.DataFrame(data=res)
+    recommendations = res_df['title'].values.tolist()
+    movie_rating = result['rating'].values.tolist()
+
+    from_email = 'testingemailpk6@gmail.com'
+    password = 'moringatest96'
+    send_to_email = request.form['e_mail']
+    message = '\n'.join(recommendations)
+
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.starttls()
+    server.login(from_email, password)
+    server.sendmail(from_email, send_to_email , message)
+    server.quit()
+
+
+
+    return render_template('profile/profile.html',prediction = recommendations,username = user_name)
