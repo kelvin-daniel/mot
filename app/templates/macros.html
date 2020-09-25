@@ -7,7 +7,7 @@
             <img src="{{movie.poster}}" class="card-img-top" alt="{{movie.title}}">
             <div class="card-body">
             <h5 class="card-title font-weight-bold">{{ movie.title|truncate(10)}}</h5>
-
+            <a href="/movie/{{movie.id}}" class="btn float-right btn-danger">View details</a> 
             </div>
         </div>
     {% endfor %}

@@ -1,1 +1,9 @@
 {% extends 'bootstrap/base.html'%}
+{%block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}">
+<!--Importing the simple mde css and js files  -->
+{{ simplemde.css}}
+{{ simplemde.js }}
+
+{% endblock %}
